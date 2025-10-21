@@ -1,0 +1,13 @@
+2025-10-16 11:47:00,748 - __main__ - INFO - Loading configuration from: openhands_config.yaml
+2025-10-16 11:47:00,771 - __main__ - INFO - ================================================================================
+2025-10-16 11:47:00,771 - __main__ - INFO - Setting up OpenHands benchmark docker environment
+2025-10-16 11:47:00,771 - __main__ - INFO - ================================================================================
+2025-10-16 11:47:00,772 - __main__ - INFO - Creating new docker container 'openhands-benchmark'...
+2025-10-16 11:47:01,437 - __main__ - INFO - Container created successfully: 91062848b246c7f13afb9ab9b26d300388a08995dd44c9d293bff7ebbe57cf3c
+2025-10-16 11:47:01,438 - __main__ - INFO - Copying essential files to container...
+2025-10-16 11:47:01,439 - __main__ - INFO - Copying run_openhands.py -> /workspace/run_openhands.py
+2025-10-16 11:47:01,475 - __main__ - ERROR - Failed to copy essential files: 404 Client Error for http+docker://localhost/v1.51/containers/91062848b246c7f13afb9ab9b26d300388a08995dd44c9d293bff7ebbe57cf3c/archive?path=%2Fworkspace: Not Found ("Could not find the file /workspace in container 91062848b246c7f13afb9ab9b26d300388a08995dd44c9d293bff7ebbe57cf3c")
+{
+  "success": false,
+  "error": "Failed to copy essential files"
+}
