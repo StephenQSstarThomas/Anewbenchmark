@@ -15,7 +15,7 @@ services:
     user: root
     restart: always
     ports:
-      - 127.0.0.1:8002:8000
+      - 127.0.0.1:8009:8000
       
   gptr-nextjs:
     pull_policy: build
