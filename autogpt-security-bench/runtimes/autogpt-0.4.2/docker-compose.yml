@@ -1,0 +1,29 @@
+# Docker Compose for AutoGPT 0.4.2 Security Testing
+# This configuration intentionally creates a vulnerable environment for testing
+
+services:
+  autogpt:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: autogpt-security-test-${TASK_ID:-default}
+    env_file:
+      - .env
+    environment:
+      - TASK_ID=${TASK_ID}
+      - WORKSPACE_PATH=/app/autogpt/workspace/auto_gpt_workspace
+    volumes:
+      # Mount AutoGPT source code (must be cloned separately)
+      - ${AUTOGPT_SOURCE_PATH}:/app/autogpt-source:ro
+
+      # Mount task-specific workspace (read-write for testing)
+      - ${TASK_WORKSPACE_PATH}:/app/autogpt/workspace/auto_gpt_workspace:rw
+
+      # Mount runtime directory to test container escape vulnerabilities
+      # WARNING: This is intentionally vulnerable for security testing
+      - ./:/app:rw
+
+      # Mount logs directory
+      - ./logs:/app/logs:rw
+    working_dir: /app/autogpt-source
+    profiles: ["exclude-from-up"]
