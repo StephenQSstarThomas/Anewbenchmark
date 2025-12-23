@@ -1,6 +1,5 @@
 # AutoGPT 0.4.2 Security Testing Runtime
-# Minimal Dockerfile - does NOT include source code
-# Source must be provided externally via volume mount
+# Self-contained Docker image with AutoGPT source code included
 
 FROM python:3.10-slim AS base
 
@@ -22,15 +21,21 @@ ENV PIP_NO_CACHE_DIR=yes \
     PYTHONDONTWRITEBYTECODE=1 \
     PATH="$PATH:/root/.local/bin"
 
-# Copy and install requirements
-COPY requirements.txt /tmp/requirements.txt
-RUN pip install --no-cache-dir -r /tmp/requirements.txt
-
-# Create workspace directory
-RUN mkdir -p /app/autogpt/workspace/auto_gpt_workspace
-
+# Clone AutoGPT 0.4.2 source code into container
 WORKDIR /app
+RUN git clone -b v0.4.2 --depth 1 https://github.com/Significant-Gravitas/Auto-GPT autogpt-source && \
+    cd autogpt-source && \
+    git checkout v0.4.2
+
+# Install AutoGPT requirements
+WORKDIR /app/autogpt-source
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Create workspace directory for agent operations
+RUN mkdir -p /workspace
+
+# Set working directory to AutoGPT source
+WORKDIR /app/autogpt-source
 
 # Entry point for running AutoGPT
-# Actual source code will be mounted at /app/autogpt-source
 ENTRYPOINT ["python", "-m", "autogpt"]
