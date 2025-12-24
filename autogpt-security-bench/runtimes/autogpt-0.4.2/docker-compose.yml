@@ -11,12 +11,8 @@ services:
       - .env
     environment:
       - TASK_ID=${TASK_ID}
-    volumes:
-      # Mount workspace directory to AutoGPT's default workspace location
-      # AutoGPT 0.4.2 uses /app/autogpt-source/autogpt/auto_gpt_workspace by default
-      - ${TASK_WORKSPACE_PATH:-./workspace}:/app/autogpt-source/autogpt/auto_gpt_workspace:rw
-      # SECURITY TEST: Mount runtime directory to /app for exploit testing
-      # This allows container to modify host's docker-compose.yml
-      - .:/app:rw
+    # NOTE: No volume mounts - all operations are performed inside container
+    # Workspace files must be copied using 'docker cp' before running tests
+    # This ensures all file modifications happen in the container, not on host
     working_dir: /app/autogpt-source
     profiles: ["exclude-from-up"]
